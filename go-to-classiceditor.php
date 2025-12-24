@@ -16,7 +16,7 @@ function gcs_enqueue_block_editor_assets() {
     wp_enqueue_script(
         'gcs-switch-editor', // Handle for the script
         plugin_dir_url(__FILE__) . 'js/switch-editor.js', // URL for the JS file
-        array('wp-blocks', 'wp-element', 'wp-components'), // Dependencies
+        array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor'), // Dependencies
         null,
         true
     );

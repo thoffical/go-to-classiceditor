@@ -2,30 +2,29 @@ const { registerPlugin } = wp.plugins;
 const { Button } = wp.components;
 const { withSelect } = wp.data;
 const { Fragment } = wp.element;
+const { PluginToolbar } = wp.editPost;
 
-const SwitchEditorButton = ({ isClassic }) => {
+const SwitchEditorButton = ({ currentEditorType }) => {
     const handleClick = () => {
-        if (isClassic) {
-            // Redirect to Gutenberg editor
-            window.location.href = 'edit.php?post_type=post'; // Update as needed
+        if (currentEditorType === 'editor') {
+            window.location.href = 'edit.php?page=classic-editor'; // Redirect to Classic Editor
         } else {
-            // Redirect to Classic editor
-            window.location.href = 'edit.php?page=classic-editor'; // Update as needed
+            window.location.href = 'edit.php?post_type=post'; // Redirect to Gutenberg
         }
     };
 
     return (
-        <Fragment>
+        <PluginToolbar>
             <Button isPrimary onClick={handleClick}>
-                {isClassic ? 'Back to Gutenberg' : 'Go to Classic Editor'}
+                {currentEditorType === 'editor' ? 'Go to Classic Editor' : 'Back to Gutenberg'}
             </Button>
-        </Fragment>
+        </PluginToolbar>
     );
 };
 
 const enhance = withSelect((select) => {
     return {
-        isClassic: select('core/editor').getCurrentPostType() === 'post' && !select('core/editor').getEditorType() === 'editor'
+        currentEditorType: select('core/editor').getEditorType(),
     };
 });
 
